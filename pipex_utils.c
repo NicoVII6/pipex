@@ -12,6 +12,8 @@
 
 #include "pipex.h"
 
+// libere la case contenant la string du path
+// libere le tableau
 void	free_array(char **array, int size)
 {
 	int	i;
@@ -19,10 +21,10 @@ void	free_array(char **array, int size)
 	i = 0;
 	while (i <= size)
 	{
-		free(array[i]); // libere la case contenat la string du path
+		free(array[i]); 
 		i++;
 	}
-	free(array); // libere le tableau
+	free(array);
 }
 
 int		size_array(char **array)

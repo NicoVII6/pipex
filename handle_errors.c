@@ -39,7 +39,7 @@ void	error_exit_pipe(void)
 
 void	error_exit_fork(void)
 {
-	perror("failet to fork");
+	perror("failed to fork");
 	exit(EXIT_FAILURE);
 }
 

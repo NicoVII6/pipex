@@ -6,7 +6,7 @@
 /*   By: ndecotti <ndecotti@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 13:10:47 by ndecotti          #+#    #+#             */
-/*   Updated: 2023/08/28 20:54:24 by ndecotti         ###   ########.fr       */
+/*   Updated: 2023/09/17 20:09:15 by ndecotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,10 @@ int		main(int argc, char **argv, char **envp)
 	if (pipe(fd) == -1)
 		error_exit_pipe();
 	pid1 = fork();
-	// we create the first processus
 	if (pid1 == -1)
 		error_exit_fork();
-	// when cmd1 has finished its execution, linux does close its standart output
-	// so by extension its actually close fd[1] from dup2()
 	if (pid1 == 0)
-		child_process1(fd, argv, envp);// on envoie le pipe complet ds child_process
+		child_process1(fd, argv, envp);
 	// we know that everything following can be only executed by the main process since
 	// if we are in the child process1, nothing will be executed after the execve() function
 	// that's why we don't have to write an 'else' condition
@@ -56,7 +53,9 @@ int		main(int argc, char **argv, char **envp)
 	// waiting from the pipe to get input
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
+	return (0);
 }
+// on envoie le pipe complet ds chaque child_process grace au pointeur sur int
 
 // RQ: SANS DUP2() execve() execute la commande et renvoie effet de execution sur le terminal (standart output)
 void	child_process1(int *fd, char **argv, char **envp)
@@ -66,23 +65,21 @@ void	child_process1(int *fd, char **argv, char **envp)
 	int		infile;
 
 	close(fd[0]); // on close le cote du pipe dont on a pas besoin
-	infile = open(argv[1], O_RDONLY, 0644);
+	infile = open(argv[1], O_RDONLY, 0644); //0644 permission mode saying that file should be readable and writable
 	if (infile == -1)
 		handle_open_error(fd[1], argv[1]);
-	// on recupere chaque element de la commande a executer dans un tableau de char
 	cmd1_array = ft_split(argv[2], ' ');
 	if (cmd1_array == NULL)
 		handle_split_error(fd[1], cmd1_array);
 	path_cmd1 = check_command_paths(cmd1_array[0], envp); // on envoie la commande ainsi que la variable d'environnement
-	// pour trouver les paths associer a la commande et retourner celui qui est accessible pour l'execution de celle ci
+	// pour checker les differents paths et trouver celui qui permettra a la commande de s'executer
 	if (path_cmd1 == NULL)
 	{
 		handle_cmd_error(fd[1], cmd1_array);
 		return ;
 	}
-	// 1st dup2() duplicate and redirect the standart input of the child process to the infile that has been open
-	// 2nd dup2() duplicate and redirect the standard output of the child process to the write end of the pipe
-	// if (dup2(*infile, STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
+	// 1st dup2() duplicate and redirect the standart input of the child process to come from the file 'infile'
+	// 2nd dup2() duplicate and redirect the standard output of the child process to the fd[1]
 	if (dup2(infile, STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
 		handle_dup2_error(infile, fd[1], cmd1_array, path_cmd1);
 	close(infile);
@@ -100,8 +97,8 @@ void	child_process2(int *fd, char **argv, char **envp)
 	char	**cmd2_array;
 	int		outfile;
 
-	close(fd[1]);// we have to close fd[1] since we don't use it
-	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	close(fd[1]);
+	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644); // TRUNC is used to clear the file if something is in it
 	if (outfile == -1)
 		handle_open_error(fd[0], argv[4]);
 	cmd2_array = ft_split(argv[3], ' ');
