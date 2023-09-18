@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-size_t		ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
@@ -38,10 +38,10 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	while (i < len)
 		new_s[i++] = s[start++];
 	new_s[i] = '\0';
-	return (new_s);	
+	return (new_s);
 }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 

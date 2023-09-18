@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ndecotti <ndecotti@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/18 16:02:02 by ndecotti          #+#    #+#             */
+/*   Updated: 2023/09/18 16:02:02 by ndecotti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
@@ -19,16 +31,17 @@ char	*check_command_paths(char *cmd, char **envp);
 int		size_array(char **array);
 void	free_array(char **array, int size);
 
-void	handle_dup2_error(int infile, int fd, char **cmd_array, char *path_cmd);
+void	handle_arg_error(void);
 void	error_exit_pipe(void);
 void	error_exit_fork(void);
-void	handle_split_error(int fd, char **cmd1_array);
-void	open_error_msg(char *file_name);
 void	handle_open_error(int fd, char *file_name);
+void	open_error_msg(char *file_name);
+
+void	handle_split_error(int fd, char **cmd1_array);
+void	handle_dup2_error(int infile, int fd, char **cmd_array, char *path_cmd);
 void	handle_execve_error(int fd, char **cmd_array, char *cmd_path);
 void	handle_cmd_error(int fd, char **cmd1_array);
 void	cmd_not_found(char *cmd);
-void	handle_execve_error(int fd, char **cmd_array, char *cmd_path);
 
 size_t	ft_strlen(const char *str);
 char	*ft_substr(const char *s, unsigned int start, size_t len);

@@ -54,11 +54,11 @@ static char	**free_all(char **arr)
 	while (*arr)
 		free(*arr);
 	free(arr);
-	return(NULL);
+	return (NULL);
 }
 
-/* retourne la valeur du pointeur de str_len à chaque fin de mot trouvé dans la chaine de caractères
-dans la fonction split */
+/* retourne la valeur du pointeur de str_len à chaque fin de mot trouvé dans la
+chaine de caractères dans la fonction split */
 
 static void	get_row(char **str, int *str_len, char c)
 {
@@ -72,7 +72,7 @@ static void	get_row(char **str, int *str_len, char c)
 	while ((*str)[i])
 	{
 		if ((*str)[i] == c)
-			return;
+			return ;
 		(*str_len)++;
 		i++;
 	}
@@ -105,4 +105,4 @@ char	**ft_split(const char *s, char c)
 	arr[i] = NULL;
 	return (arr);
 }
-/* arr[i] = NULL libère le tableau qui contient l'adresse du début de chaque mot */
+/* arr[i] = NULL libère tableau qui contient l'adresse du début de chaque mot */

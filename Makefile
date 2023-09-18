@@ -1,6 +1,6 @@
 SRCS = pipex_utils.c main.c \
 	pipex_utils_libft.c split_libft.c handle_errors.c \
-	cmd_paths_control.c \
+	cmd_paths_control.c handle_errors_bis.c \
 
 OBJS = ${SRCS:.c=.o}
 

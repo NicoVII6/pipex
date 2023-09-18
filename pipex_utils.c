@@ -21,13 +21,13 @@ void	free_array(char **array, int size)
 	i = 0;
 	while (i <= size)
 	{
-		free(array[i]); 
+		free(array[i]);
 		i++;
 	}
 	free(array);
 }
 
-int		size_array(char **array)
+int	size_array(char **array)
 {
 	int	i;
 
